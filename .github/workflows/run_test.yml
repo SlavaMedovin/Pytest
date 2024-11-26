@@ -1,1 +1,33 @@
+name: Run autotests
 
+
+
+on:
+  workflow_dispatch:
+    inputs:
+     deployment_target:
+       description: select test to run
+       required: true
+       type: choice
+       default: all
+       options: 
+           - all
+
+jobs:
+  run-tests:
+    runs-on: ubunte-latest
+    name: Tests
+    steps:
+      - name: Copy source code
+        uses: action/checkout@4
+      - name: Set up Python env
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: install dependencies
+        run: pip install requirements.txt
+      - name: Run tests
+        run: pytest -v
+
+          
+  
